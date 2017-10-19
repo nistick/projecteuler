@@ -1,11 +1,8 @@
-function counts(n)
-    lower = 10^(n-1)
-    upper = 10^n
-    nl = floor(lower^(1/n))
-    nu = round(upper^(1/n))
-
-    println("nu = $nu, nl = $nl, $(nu - nl)")
-    nu - nl
+idx = 0
+for n in 1:25
+    println(idx)
+    println(Int(ceil(BigInt(10)^((n-1)/n))))
+    idx += max(10 - Int(ceil(BigInt(10)^((n-1)/n))), 0.0)
 end
 
-counts(5)
+println(idx)
