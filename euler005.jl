@@ -1,5 +1,6 @@
-function problem5(num::Int64)
-    reduce(lcm, 1:num)
-end
+# Smallest multiple
+# Problem 5
+# 2520 is the smallest number that can be divided by each of the numbers from 1 to 10 without any remainder.
+# What is the smallest positive number that is evenly divisible by all of the numbers from 1 to 20?
 
-println(problem5(20))
+@time println(reduce(lcm, 1:20))
