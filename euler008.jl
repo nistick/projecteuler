@@ -20,4 +20,4 @@ numberStr = """73167176531330624919225119674426574742355349194934
 71636269561882670428252483600823257530420752963450"""
 numberStr = replace(numberStr, "\n", "")
 adjectNum = 12
-println(max([reduce(*, [parse(Int, k) for k in j]) for j = [SubString(numberStr, i, i+adjectNum) for i = 1:1000-adjectNum]]...))
+@time println(max([reduce(*, [parse(Int, k) for k in j]) for j = [SubString(numberStr, i, i+adjectNum) for i = 1:1000-adjectNum]]...))
