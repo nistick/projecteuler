@@ -19,7 +19,5 @@ numberStr = """73167176531330624919225119674426574742355349194934
 05886116467109405077541002256983155200055935729725
 71636269561882670428252483600823257530420752963450"""
 numberStr = replace(numberStr, "\n", "")
-aa = SubString(numberStr,1, 5)
-@assert(reduce(*, [parse(Int, i) for i = aa]) == 882)
 adjectNum = 12
 println(max([reduce(*, [parse(Int, k) for k in j]) for j = [SubString(numberStr, i, i+adjectNum) for i = 1:1000-adjectNum]]...))
