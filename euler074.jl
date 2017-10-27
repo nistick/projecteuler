@@ -26,10 +26,9 @@ function digitfactorial(x)
 end
 
 function digitfactorialchain(x)
-    gChain = Dict(145=>1, 169=>3, 871=>2, 872=>2, 2=>1, 1=>1)
+    gChain = Dict(169=>3, 871=>2, 872=>2)
     count = 0
     while true && count < 65
-        println(x)
         newX = digitfactorial(x)
         if x == newX
             count += 1
@@ -45,8 +44,15 @@ function digitfactorialchain(x)
     count
 end
 
-for i in 3:100000
-    if digitfactorialchain(i) > 59
-        println("$i : $(digitfactorialchain(i))")
+function main()
+    count = 0
+    for i in 1:1000000
+        if digitfactorialchain(i) >= 59
+            count += 1
+            # println("$i : $(digitfactorialchain(i))")
+        end
     end
+    count
 end
+
+@time println(main())
