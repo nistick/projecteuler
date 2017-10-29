@@ -18,37 +18,70 @@
 #
 # Given that L is the length of the wire, for how many values of L ≤ 1,500,000 can exactly
 # one integer sided right angle triangle be formed?
+using Primes
 
-function checkPythago(a::Int, b::Int, c::Int)
-    if a+b <= c
-        return false
+function factors(n)
+    f = [one(n)]
+    for (p,e) in factor(n)
+        f = reduce(vcat, f, [f*p^j for j in 1:e])
     end
-    if a^2 + b^2 == c^2
-        return true
-    else
-        return false
-    end
+    return length(f) == 1 ? [one(n), n] : sort!(f)
 end
 
-function main()
-    gCount = 0
-    for L = 12:1500000
-        count = 0
-        for a = 1:L-2
-            for b = a:L-a-1
-                c = L - a - b
-                if checkPythago(a, b, c)
-                    count += 1
-                    # println("a: $a, b: $b, c: $c => $(a^2+b^2) == $(c^2)")
-                end
+function makePairs(L::Int)
+    res = []
+    bEnd = false
+    n = 1
+    while true
+        m = n+1
+        if 2*m*(m+n) > L
+            break
+        end
+        cnt = 0
+        while true
+            if 2*m*(m+n) > L
+                break
             end
+            if gcd(m, n) != 1
+                m += 1
+                continue
+            end
+            if !(m%2==0 || n%2==0)
+                m += 1
+                continue
+            end
+            push!(res, [m, n])
+            cnt += 1
+            m += 1
         end
-        if count == 1
-            # println("L : $L")
-            gCount += 1
+        if cnt == 0
+            break
         end
+        n += 1
     end
-    gCount
+    return res
+end
+
+function getEpochPythag(pairs)
+    res = []
+    for p in pairs
+        push!(res, 2*p[1]*(p[1]+p[2]))
+    end
+    res = sort(res)
+    return res
+end
+
+
+function main()
+    MaxL = 1500000
+    gList = getEpochPythag(makePairs(MaxL))
+    res = Set()
+    for g = gList
+        maxg = round(MaxL/g)
+        gm = Set(filter(x->x<=MaxL, 1:maxg.*g))
+        res = union(res, gm)
+    end
+    res
 end
 
 @time println(main())

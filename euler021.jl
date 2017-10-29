@@ -16,7 +16,7 @@ function isAmicable(n, limi)
     if amicable == n
         return false
     end
-    if n == dd(amicable)
+    if n == d(amicable)
         return true
     end
     return false
