@@ -17,7 +17,7 @@
 using Primes
 
 function primeperiod(x)
-  for i in 1:x
+  for i in BigInt(1):BigInt(x)
     if 10^i%x==1
       return i
     end
@@ -37,18 +37,9 @@ function repeatdecimal(x)
     if k == 2 || k == 5
       continue
     end
-    println("k : $k")
     push!(idx, k^(ft[k]-1)*primeperiod(k))
   end
   lcm(idx...)
 end
 
-repeatdecimal(12)
-
-println(factor(28))
-ft = factor(28)
-ft[2]
-ft
-for x in keys(ft)
-  println(x)
-end
+@time println(indmax([repeatdecimal(x) for x in BigInt(2):BigInt(1000)])+1)
