@@ -73,7 +73,7 @@ end
 
 
 function main()
-    MaxL = 1500000
+    MaxL = 150000
     gList = getEpochPythag(makePairs(MaxL))
     res = Set()
     for g = gList
