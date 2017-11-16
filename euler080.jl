@@ -22,14 +22,18 @@ function squareroot(n::BigInt, digit::BigInt)
     end
     return string(b)[1:end-2]
 end
-sumValue = 0.0
-j = 1
-for i in 1:100
-    if i == j^2
-        println(i)
-        j+=1
-        continue
+
+function main()
+    sumValue = 0.0
+    j = 1
+    for i in 1:100
+        if i == j^2
+            j+=1
+            continue
+        end
+        sumValue += [parse(Int,i) for i in squareroot(BigInt(i), BigInt(100))] |> sum
     end
-    sumValue += [parse(Int,i) for i in squareroot(BigInt(i), BigInt(100))] |> sum
+    sumValue
 end
-println(sumValue)
+
+@time println(main())
