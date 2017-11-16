@@ -4,4 +4,4 @@
 #
 # What is the largest prime factor of the number 600851475143 ?
 using Primes
-@time println(collect(keys(factor(600851475143)))[end])
+@time println(factor(600851475143)|>keys|>maximum)

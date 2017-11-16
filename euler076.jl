@@ -11,38 +11,16 @@
 #
 # How many different ways can one hundred be written as a sum of at least two positive integers?
 
-function dictSum(x)
-    res = 0.0
-    for k in keys(x)
-        res += x[k]
-    end
-    Int(res)
-end
-
-function dictValueSum(x, strike)
-    res = 0.0
-    for k in keys(x)
-        if k >= strike
-            res += x[k]
-        end
-    end
-    Int(res)
-end
-
 function main(N)
-    res = Dict()
-    res[1] = Dict(1=>1)
-    res[2] = Dict(1=>1, 2=>1)
-    for x in 3:N
-        half = Int(floor(x/2))
-        res[x] = Dict(x=>1)
-        for y in 1:half
-            res[x][y] = dictValueSum(res[x-y], y)
+    res = zeros(N+1)
+    res[1] = 1
+    for i in 2:N
+        for j in i:N+1
+            res[j] += res[j-i+1]
         end
-        if x == N
-            return dictSum(res[x])-1
-        end
+        println(res)
     end
+    BigInt(res[end])
 end
 
-@time println(main(100))
+@time println(main(6))

@@ -10,50 +10,19 @@
 # OO   O   O   O
 # O   O   O   O   O
 # Find the least value of n for which p(n) is divisible by one million.
-
-
-function dictSum(x)
-    res = BigInt(0)
-    for k in keys(x)
-        res += x[k]
-    end
-    res
-end
-
-function dictValueSum(x, strike)
-    res = BigInt(0)
-    for k in keys(x)
-        if k >= strike
-            res += x[k]
-        end
-    end
-    res
-end
+using Primes
 
 function main(N)
-    res = Dict()
-    res[1] = Dict(1=>1)
-    res[2] = Dict(1=>1, 2=>1)
-    x = Int(3)
-    while true
-        try
-            half = BigInt(floor(x/2))
-            res[x] = Dict(x=>1)
-            for y in 1:half
-                res[x][y] = dictValueSum(res[x-y], y)
-            end
-            result = dictSum(res[x])
-            # println("="^30)
-            # println("x : $x, result : $result, dict: $(res[x])")
-            if result % N == 0
-                return x, result,  res[x]
-            end
-            x += 1
-        catch
-
+    res = zeros(N+1)
+    res[1] = 1
+    println(res)
+    for i in 2:N
+        for j in i:N+1
+            res[j] += res[j-i+1]
         end
+        println("$i, $res")
     end
+    BigInt(res[end])
 end
 
-# @time println(main(1000000))
-@time println(main(100))
+@time println(main(4))
