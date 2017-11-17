@@ -9,12 +9,6 @@
 #        [537, 699, 497, 121, 956],
 #        [805, 732, 524, 37, 331]]
 
-f = open("p081_matrix.txt")
-a = readlines(f)
-mat = []
-for x in a
-    push!(mat, [parse(Int, y) for y in split(x, ",")])
-end
 function main(mat, len)
     lastv = 2*len -1
     for i in lastv:-1:2
@@ -24,15 +18,16 @@ function main(mat, len)
                 continue
             end
             if j == len
-                mat[j][k] += mat[j][k+1]
+                mat[j,k] += mat[j,k+1]
             elseif k == len
-                mat[j][k] += mat[j+1][k]
+                mat[j,k] += mat[j+1,k]
             else
-                mat[j][k] += min(mat[j+1][k], mat[j][k+1])
+                mat[j,k] += min(mat[j+1,k], mat[j,k+1])
             end
         end
     end
-    return mat[1][1]
+    return mat[1,1]
 end
 
+mat = readdlm("p081_matrix.txt", ',', Int)
 @time println(main(mat, 80))
