@@ -7,29 +7,33 @@
 # Find the minimal path sum, in matrix.txt (right click and "Save Link/Target As..."), a 31K text file containing a 80 by 80 matrix, from the left column to the right column.
 
 
-mat = [[131 673 234 103 18]
-       [201 96 342 965 150]
-       [630 803 746 422 111]
-       [537 699 497 121 956]
-       [805 732 524 37 331]]
-len = 5
+# mat = [[131 673 234 103 18]
+#        [201 96 342 965 150]
+#        [630 803 746 422 111]
+#        [537 699 497 121 956]
+#        [805 732 524 37 331]]
+# len = 5
 
-mat = readdlm("p082_matrix.txt", ',', Int)
-len = 80
-summat = copy(mat)
-for j = len-1:-1:1
-    for i = 1:len
-        minV = 10000000
-        for ii in 1:len
-
-        if i == 1
-            summat[i,j] += min(summat[i,j+1], mat[i+1,j] + summat[i+1, j+1])
-        elseif i == len
-            summat[i,j] += min(summat[i,j+1], mat[i-1,j] + summat[i-1, j+1])
-        else
-            summat[i,j] += min(summat[i,j+1], mat[i+1,j] + summat[i+1, j+1], mat[i-1,j]+summat[i-1, j+1])
+function main()
+    mat = readdlm("p082_matrix.txt", ',', Int)
+    len = 80
+    summat = copy(mat)
+    for j = len-1:-1:1
+        for i = 1:len
+            val = []
+            for ii = 1:len
+                if i == ii
+                    push!(val, summat[i, j+1]+mat[i,j] )
+                elseif ii < i
+                    push!(val, summat[ii,j+1]+sum(mat[ii:i,j]))
+                else
+                    push!(val, summat[ii, j+1]+sum(mat[i:ii,j]))
+                end
+            end
+            summat[i,j] = min(val...)
         end
     end
+    min(summat[:,1]...)
 end
-println(min(summat[:,1]...))
-println(mat[:,1])
+
+@time println(main())
